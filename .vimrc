@@ -29,6 +29,13 @@ Bundle 'itchyny/lightline.vim'
 Bundle 'klen/python-mode'
 " XML/HTML tags navigation
 Bundle 'matchit.zip'
+" Javascript indentation and syntax support 
+Bundle "pangloss/vim-javascript"
+" React JSX syntax highlighting and indenting 
+Bundle 'mxw/vim-jsx'
+"  Javascript linter
+"Bundle 'wookiehangover/jshint.vim' too slow
+
 " Text alignment
 Plugin 'godlygeek/tabular'
 " Marckdown highlighter
@@ -65,6 +72,12 @@ set incsearch
 
 " highlighted search results
 set hlsearch
+
+" panglos/javascript bundle
+set regexpengine=1
+
+" mxw/vim-jsx bundle to sintax highlight in .js and not only in .jsx
+let g:jsx_ext_required = 0
 
 " syntax highlight on
 syntax on
@@ -110,9 +123,10 @@ set nofoldenable
 let g:pymode_rope = 0
 " personal ->
 
-"highlight ExtraWhitespace ctermbg=red guibg=red
+let JSHintUpdateWriteOnly=1
 
-"match ExtraWhitespace /\s\+$/
+highlight ExtraWhitespace ctermbg=red guibg=red
+match ExtraWhitespace /\s\+$/
 
 ca rmbs :%s/\s\+$//gc<CR>
 ca rmcr :%s/\r//gc<CR>
@@ -127,13 +141,13 @@ imap <C-S-k> <ESC><c-w>k
 imap <C-S-j> <ESC><c-w>j
 
 
-" autocmd FileType python set colorcolumn=79
-
+" open .vimrc in tab for edit
 map <leader>v :tabe ~/.vimrc<CR>
-
+" reload .vimrc
 map <silent> <leader>V :source ~/.vimrc<CR>:filetype detect<CR>:exe ":echo 'vimrc reloaded'"<CR>
 
-"cmap w!! w !sudo tee % >/dev/null
+" get sudo to write
+cmap w!! w !sudo tee % >/dev/null
 
 map <leader>w :pwd<CR>
 
@@ -155,9 +169,10 @@ nmap <C-l> :tabn<CR>
 
 " char limit indicator
 set colorcolumn=79
-
 " text wrap at 79
 set textwidth=79
 
 " nice complete on esc mode
 set wildmode=list:longest
+
+autocmd FileType html :setlocal sw=2 ts=2 sts=2 " Two spaces for HTML files "
