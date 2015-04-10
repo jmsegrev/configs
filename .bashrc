@@ -1,10 +1,10 @@
 # byogu vim color
-TERM="xterm-256color"
+export TERM="xterm-256color"
 
 # Golang
-PATH=$PATH:/usr/local/go/bin
-GOPATH=$HOME/Workspace/go
-PATH=$PATH:$GOPATH/bin
+export PATH=$PATH:/usr/local/go/bin
+export GOPATH=$HOME/Workspace/go
+export PATH=$PATH:$GOPATH/bin
 
 # bash promt
 if [[ $EUID -eq 0 ]]; then
