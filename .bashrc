@@ -6,6 +6,9 @@ export PATH=$PATH:/usr/local/go/bin
 export GOPATH=$HOME/Workspace/go
 export PATH=$PATH:$GOPATH/bin
 
+
+source /usr/lib/git-core/git-sh-prompt
+
 # bash promt
 if [[ $EUID -eq 0 ]]; then
   RED='\e[0;31m'

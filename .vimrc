@@ -12,6 +12,7 @@ if !filereadable(vundle_readme)
     echo ""
     silent !mkdir -p ~/.vim/bundle
     silent !git clone https://github.com/gmarik/vundle ~/.vim/bundle/vundle
+
     let iCanHazVundle=0
 endif
 
@@ -58,6 +59,12 @@ Plugin 'plasticboy/vim-markdown'
 " Textile highligther
 Plugin 'timcharper/textile.vim'
 
+if iCanHazVundle == 0
+    echo "Installing Bundles, please ignore key map error messages"
+    echo ""
+    :BundleInstall
+endif
+
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -73,6 +80,18 @@ filetype plugin indent on    " required
 " see :h vundle for more details or wiki for FAQ
 " Put your non-Plugin stuff after this line
 "
+
+function! EnsureDirExists (dir)
+  if !isdirectory(a:dir)
+    if exists("*mkdir")
+      call mkdir(a:dir,'p')
+      echo "Created directory: " . a:dir
+    else
+      echo "Please create directory: " . a:dir
+    endif
+  endif
+endfunction
+
 
 colorscheme jellybeans
 
@@ -99,6 +118,10 @@ syntax on
 
 " line numbers
 set nu
+
+call EnsureDirExists($HOME . '/.vim/dirs/tmp')
+call EnsureDirExists($HOME . '/.vim/dirs/backups')
+call EnsureDirExists($HOME . '/.vim/dirs/undos')
 
 " Better backup, swap and undos storage
 set directory=~/.vim/dirs/tmp     " directory to place swap files in
@@ -191,3 +214,6 @@ set textwidth=79
 set wildmode=list:longest
 
 autocmd FileType html :setlocal sw=2 ts=2 sts=2 " Two spaces for HTML files "
+
+" terminal profile background color should be #121212
+" terminal profile text color should be #ffffff
