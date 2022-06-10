@@ -9,7 +9,7 @@ an executable
 -- general
 lvim.log.level = "warn"
 lvim.format_on_save = true
-lvim.colorscheme = "onedarkermy"
+lvim.colorscheme = "myonedarker"
 
 -- keymappings [view all the defaults by pressing <leader>Lk]
 lvim.leader = "space"
@@ -281,6 +281,7 @@ lvim.plugins = {
 			require("colorizer").setup({ "*" })
 		end,
 	},
+	{ "jmsegrev/myonedarker.nvim" },
 }
 
 vim.g.yankring_history_dir = "~/.config/lvim/"
