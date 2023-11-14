@@ -53,6 +53,12 @@ M.nvimtree = {
         git = false,
       },
     },
+
+    -- show root folder label as grandparent/parent directory
+    -- root_folder_label = function(path)
+    --   return ".../" .. vim.fn.fnamemodify(path, ":h:t") .. "/" ..vim.fn.fnamemodify(path, ":t")
+    -- end
+
   },
   view = {
     side = "right",
@@ -91,6 +97,21 @@ M.nvimtree = {
       vim.keymap.set("n", key, value[1], value[2])
     end
   end,
+}
+
+M.yanky = {
+  highlight = {
+    on_put = false,
+    on_yank = false,
+  },
+}
+
+M.copilot = {
+  -- Possible configurable fields can be found on:
+  -- https://github.com/zbirenbaum/copilot.lua#setup-and-configuration
+  suggestion = {
+    auto_trigger = true,
+  },
 }
 
 return M
