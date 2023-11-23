@@ -20,25 +20,35 @@ M.ui = {
   },
   statusline = {
     -- separator_style = "default",
-    -- change file info to should full path of open file
+    -- overrides file info modeule to show full path of open file
     overriden_modules = function(modules)
       modules[2] = (function()
         local icon = " 󰈚 "
         local path = vim.api.nvim_buf_get_name(vim.api.nvim_win_get_buf(vim.g.statusline_winid))
-        local home = os.getenv "HOME"
-        local name = (path == "" and "Empty ") or string.gsub(path, "%" .. home, "~")
+        local name = (path == "" and "Empty ") or path
 
-        -- for nvimtree buffer, show path of file under cursor
-        if string.find(name, "NvimTree") then
+        -- for nvimtree buffer, show path
+        local keyword = "NvimTree"
+        if string.find(name, keyword) then
           local tree = require "nvim-tree.lib"
           local node = tree.get_node_at_cursor()
-          if node then
-            -- TODO color Explorer
-            name = "Explorer " .. node.absolute_path
+          if node and node.absolute_path then
+            -- show path of file under cursor
+            name = node.absolute_path
+          else
+            -- show path for dir (no file under cursor)
+            -- removes /NvimTree_# 
+            name = name:gsub("/" .. keyword .. "_%d+", "")
           end
+          -- TODO color Explorer keyword
+          name = "Explorer " .. name
         end
 
         if name ~= "Empty " then
+          local home = os.getenv "HOME"
+          -- replaces absolute home path with ~
+          name = string.gsub(name, "%" .. home, "~")
+
           local devicons_present, devicons = pcall(require, "nvim-web-devicons")
 
           if devicons_present then
@@ -53,7 +63,7 @@ M.ui = {
       end)()
       -- removes dir module
       modules[9] = ""
-      -- modifies cursor position module
+      -- overrides cursor position module to remove color and sign
       modules[10] = (function()
         local left_sep = "·  "
 

@@ -12,6 +12,12 @@ M.treesitter = {
     "c",
     "markdown",
     "markdown_inline",
+    "yaml",
+    "json",
+    "python",
+    "bash",
+    "dockerfile",
+    "go",
   },
   indent = {
     enable = true,
@@ -31,6 +37,7 @@ M.mason = {
     "css-lsp",
     "html-lsp",
     "typescript-language-server",
+    "tailwindcss-language-server",
     "deno",
     "prettier",
 
@@ -54,23 +61,25 @@ M.nvimtree = {
       },
     },
 
-    -- show root folder label as grandparent/parent directory
-    -- root_folder_label = function(path)
-    --   return ".../" .. vim.fn.fnamemodify(path, ":h:t") .. "/" ..vim.fn.fnamemodify(path, ":t")
-    -- end
-
+    root_folder_label = function(path)
+      -- show root folder label as grandparent/parent directory
+      -- return ".../" .. vim.fn.fnamemodify(path, ":h:t") .. "/" .. vim.fn.fnamemodify(path, ":t")
+      -- show root folder label as parent directory
+      return ".../" .. vim.fn.fnamemodify(path, ":t")
+    end
+  },
+  filters = {
+    git_ignored = false,
   },
   view = {
     side = "right",
     width = 35,
   },
   respect_buf_cwd = true,
-  update_cwd = true,
+  sync_root_with_cwd = false,
   update_focused_file = {
     enable = true,
-    debounce_delay = 15,
     update_root = true,
-    ignore_list = {},
   },
   on_attach = function(bufnr)
     local api = require "nvim-tree.api"

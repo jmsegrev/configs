@@ -22,13 +22,32 @@ M.general = {
   v = {
     [">"] = { ">gv", "indent" },
   },
+  t = {
+    -- allows for switching window while in terminal in the same way as normal mode
+    ["<C-w>"] = {
+      function()
+        local buf_nb = vim.api.nvim_get_current_buf()
+        vim.api.nvim_command "stopinsert"
+        vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<c-w>", true, true, true), "n", false)
+
+        -- go back to insert mode if we end up in the same terminal
+        vim.schedule(function()
+          local new_buf_nb = vim.api.nvim_get_current_buf()
+          if new_buf_nb == buf_nb then
+            vim.api.nvim_command "startinsert"
+          end
+        end)
+      end,
+    },
+  },
 }
 
 M.nvimtree = {
   plugin = true,
 
   n = {
-    ["<leader>e"] = { "<cmd> NvimTreeToggle <CR>", "Toggle nvimtree" },
+    -- open nvimtree in dir of the current open file buf
+    ["<leader>e"] = { "<cmd>cd %:p:h<CR><cmd>NvimTreeToggle<CR>", "Toggle nvimtree in open buf dir" },
   },
 }
 
@@ -80,9 +99,9 @@ M.copilot = {
         require("copilot.suggestion").accept()
       end,
       "Copilot Accept",
-      {replace_keycodes = true, nowait=true, silent=true, expr=true, noremap=true}
-    }
-  }
+      { replace_keycodes = true, nowait = true, silent = true, expr = true, noremap = true },
+    },
+  },
 }
 
 return M
